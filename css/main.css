@@ -1,0 +1,103 @@
+body {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+.editor{
+    height: 100%;
+    width: 100%;
+   } 
+.top-menu {
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+   /*  -webkit-app-region: drag; */ 
+    height: 35px;
+    cursor: pointer;
+}
+
+.btn {
+    margin-top: 7px;
+    margin-bottom: 7px;
+    margin-left: 3px;
+    border: 1px solid #474852;
+    background-color: #303147;
+    color: white;
+    border-radius: 1px;
+    font-size: 10px;
+    cursor: pointer;
+}
+
+.column-menu {
+    background-color: #171725;
+    border: 1px solid #171725;
+    height: 35px;
+    width: 50%;
+    color: #fff;
+}
+
+.tab-item {
+    height: 30px;
+    width: 70px;
+    text-align: center;
+    /*background-color: #171725;*/
+    padding-left: 20px;
+    padding-right: 20px;
+    color: #ababab;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.tab-item.active {
+    background-color: #222337 !important;
+}
+
+.content-full {
+    display: flex;
+    flex-direction: row;
+    height: calc(100vh - 80px);
+}
+
+.tab-center {
+    background-color: #1e1e1e;
+    padding: 3px;
+    width: 85px;
+    color: #ababab;
+    height: 20px;
+    text-align: center;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    cursor: pointer;
+}
+.item-prop {
+    width: 100%;
+    border-bottom: 1px solid #171725;
+    display: flex;
+    align-content: center;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    color: white;
+    cursor: pointer;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    align-content: center;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.item-prop-content {
+    display: none;
+    background-color: #171725;
+    color: white;
+    min-height: 15px;
+    padding: 10px;
+}
+.item-prop-content-item {
+    font-size: 12px;
+    padding: 2px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding-bottom: 10px;
+}
