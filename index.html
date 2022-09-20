@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>CSS Live Studio</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" type="text/css" media="screen" href="css/main.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+        integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/js/all.min.js"
+        integrity="sha512-naukR7I+Nk6gp7p5TMA4ycgfxaZBJ7MO5iC3Fp6ySQyKFHOGfpkSZkYVWV5R7u7cfAicxanwYQ5D1e17EfJcMA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
+    <script src="vendor/monaco-editor/min/vs/loader.js"></script>
+
+
+    <script src="js/main.js"></script>
+
+    <style>
+        .iframe {
+            width: 200px;
+            height: 200px;
+            display: block;
+            position: relative;
+        }
+
+        .iframe::after {
+            content: "";
+            opacity: 0.2;
+        }
+
+        .jstree-default .jstree-clicked {
+            background-color: #171725;
+        }
+    </style>
+
+</head>
+
+<body class="body" style="background-color: #171725;font-family: Verdana, Arial, Helvetica, sans-serif;">
+    <div id="menu" style="width: 250px;
+    background-color: #171725;
+    position: absolute;
+    height: 100%;
+    display: none;
+    float: left;
+    z-index: 999999999999;
+    box-shadow: 6px 0px 13px 6px #00000042;
+    border-right: 3px solid #f8f8f8 !important;">
+        <div onclick="fnMenu()"
+            style="padding: 10px;background-color: #222337; margin: 10px;  cursor: pointer;color: white;">
+            <i style="font-size: 20px; margin-right: 5px;" class="fa-solid fa-arrow-left fa-2x"></i>
+            Back
+        </div>
+        <div id="start" onclick="fnCreateProject()"
+            style="padding: 10px;background-color: #222337; margin: 10px; cursor: pointer;color: white;">
+            <i style="font-size: 20px; margin-right: 5px;" class="fa-solid fa-file fa-2x"></i>
+            Create new project
+        </div>
+        <div onclick="fnListFiles()"
+            style="padding: 10px;background-color: #222337; margin: 10px; cursor: pointer;color: white;">
+            <i style="font-size: 20px; margin-right: 5px;" class="fa-solid fa-folder-open fa-2x"></i>
+            Open project
+        </div>
+        <div onclick="fnCreateFile()"
+            style="padding: 10px;background-color: #222337; margin: 10px; cursor: pointer;color: white;">
+            <i style="font-size: 20px; margin-right: 5px;" class="fa-solid fa-save fa-2x"></i>
+            Save All
+        </div>
+    </div>
+    <div class="container-full">
+        <div class="top-menu">
+            <div onclick="fnMenu()" class="column-menu" style="text-align: left; width: 35px;">
+                <img style="margin-top: 7px; margin-left: 5px; cursor: pointer;" height="20px" src="img/menu.png">
+            </div>
+            <div class="column-menu" style="text-align: left;display: flex;flex-direction: row;">
+                <div class="tab-item active" style="margin-top: 6px; padding-top: 6px; width: 90px;">
+                    All Elements
+                </div>
+                <div class="tab-item" style="margin-top: 6px; width: 40px; padding-top: 6px; ">
+                    Containers
+                </div>
+                <div class="tab-item" style="margin-top: 6px; width: 40px; padding-top: 6px;">
+                    Buttons
+                </div>
+                <div class="tab-item" style="margin-top: 6px; width: 30px; padding-top: 6px;">
+                    Tables
+                </div>
+                <div class="tab-item" style="margin-top: 6px; width: 30px; padding-top: 6px;">
+                    Inputs
+                </div>
+                <div class="tab-item" style="margin-top: 6px; width: 25px; padding-top: 6px;">
+                    Icons
+                </div>
+
+                <div onclick="fnSaveFile()" class="tab-item" style="margin-top: 8px; width: 10px; margin-left: -15px;"
+                    title="Save">
+                    <i style="font-size: 20px" class="fa-solid fa-save fa-2x"></i>
+                </div>
+                <div class="tab-item" style="margin-top: 8px; width: 10px;margin-left: -15px;" title="Play on Chrome">
+                    <i style="font-size: 20px" class="fa-solid fa-play fa-2x"></i>
+                </div>
+            </div>
+            <div class="column-menu"
+                style="text-align: left; width: 150px;color: rgb(209, 209, 209);font-weight: bold; -webkit-app-region: drag;">
+                BlackBear IDE
+            </div>
+            <div class="column-menu" style="text-align: right; -webkit-app-region: drag;">
+                <img src="img/minimize.png" height="15px;"
+                    style="margin-right: 3px; margin-left: 3px;margin-top: 7px; cursor: pointer;">
+                <img src="img/maximize.png" height="15px;"
+                    style="margin-right: 3px; margin-left: 3px;margin-top: 7px; cursor: pointer;">
+                <img src="img/close.png" height="15px;"
+                    style="margin-right: 5px; margin-left: 3px;margin-top: 7px; cursor: pointer;">
+            </div>
+        </div>
+        <div style="height: 45px;background-color: #222337; display: flex;">
+            <button title="Button" class="btn" onclick="fnAddComp('button')">
+                <i class="fa-solid fa-rectangle-ad fa-2x"></i>
+            </button>
+            <button title="Radio" class="btn" onclick="fnAddComp('radio')">
+                <i class="fa-regular fa-circle-dot fa-2x"></i>
+            </button>
+            <button title="Checkbox" class="btn" onclick="fnAddComp('checkbox')">
+                <i class="fa-regular fa-circle-check fa-2x"></i>
+            </button>
+            <button title="Input Text" class="btn" onclick="fnAddComp('text')">
+                <i class="fa-solid fa-text-width fa-2x"></i>
+            </button>
+            <button title="Span" class="btn" onclick="fnAddComp('span')">
+                <i class="fa-solid fa-font fa-2x"></i>
+            </button>
+            <button title="HTML Div" class="btn" onclick="fnAddComp('div')">
+                <i class="fa-solid fa-code fa-2x"></i>
+            </button>
+            <button title="HTML Table" class="btn" onclick="fnAddComp('table')">
+                <i class="fa-solid fa-table fa-2x"></i>
+            </button>
+            <button title="Dropdown" class="btn" onclick="fnAddComp('select')">
+                <i class="fa-regular fa-square-caret-down fa-2x"></i>
+            </button>
+            <button title="Row" class="btn" onclick="fnAddComp('hr')">
+                <i class="fa-solid fa-grip-lines fa-2x"></i>
+            </button>
+            <button title="Form" class="btn" onclick="fnAddComp('form')">
+                <i class="fa-regular fa-rectangle-list fa-2x"></i>
+            </button>
+            <button title="List" class="btn" onclick="fnAddComp('ul')">
+                <i class="fa-solid fa-list fa-2x"></i>
+            </button>
+            <button title="Link" class="btn" onclick="fnAddComp('a')">
+                <i class="fa-solid fa-link fa-2x"></i>
+            </button>
+            <button title="Image" class="btn" onclick="fnAddComp('img')">
+                <i class="fa-regular fa-image fa-2x"></i>
+            </button>
+        </div>
+
+        <div class="content-full">
+            <div
+                style="height: calc(100vh - 81px); background-color: #222337; width: 320px; border-top: 1px solid #2d2e42;">
+
+                <div id="dvPath"
+                    style="background-color: #303147; padding: 5px; color: #f5f4f6;font-family: Verdana, Arial, Helvetica, sans-serif;font-size: 12px; font-weight: 600;">
+                    C:/
+                </div>
+                <div style="color: white;">
+                    <input type="text" id="nameFile" onblur="fnCreateFile()" placeholder="File / Folder name..."
+                        style="background-color: #171725;color: white; width: 100%; height: 21.53px; border: 1px solid #222337">
+                </div>
+                <div id="html1" style="color: white; ">
+
+                </div>
+
+            </div>
+
+            <div style="width: 100%;height: calc(100vh-130);background-color: #1e1e1e;">
+                <div
+                    style="height: 25px; width: 100%; background-color: #303147; padding-top: 6px; display: flex; font-size: 10px;">
+                    <a id="btn-source" class="tab-center" onclick="fnChangeTab('source')">View Source</a>
+                    <a id="btn-layout" class="tab-center" onclick="fnChangeTab('layout')"
+                        style="margin-left: 2px; background-color: #1d1d2e;">View Design</a>
+                    <span style="float: right; color: white;margin-left: 15px;">
+                        <input type="text" style="background-color: #171725;color: white; width: 50px;"
+                            id="size_h_layout" onblur="fnAtSize()"> x <input onblur="fnAtSize()" id="size_v_layout"
+                            type="text" style="background-color: #171725;color: white;width: 50px;">
+                        <select id="drop_layout"
+                            style="background-color: #171725;color: white; width: 150px; height: 21.53px;"
+                            onchange="fnAtPreSize(this.value)">
+                            <option>Custom</option>
+                            <option value="1">Desktop</option>
+                            <option value="2">Mobile</option>
+                            <option value="2">Tablet</option>
+                        </select>
+                    </span>
+                    <input type="hidden" id="txt_path">
+                    <input type="hidden" id="txt_file">
+                </div>
+                <div
+                    style="width: 100%;height: calc(100vh - 130px); display: flex; justify-content: space-around; align-items: center;z-index: 9999999999999; background-color: #1e1e1e;">
+
+                    <!-- 
+                    <iframe scrolling="auto" name="main" id="layout"
+                        style="width: 1057px;height: 655px; border:0px; background-color: white; display: none;"
+                        src=""></iframe> -->
+                    <div id="layout"
+                        style="width: 1057px;height: 655px; border:0px; background-color: white; display: none;">
+
+                    </div>
+
+                    <div id="source" style="height: 100%; width: 100%; background-color: #1e1e1e;">
+                        <div id="container" style="width: 580px; height: 650px;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="height: calc(100vh - px); background-color: #222337; width: 300px; border-top: 1px solid #2d2e42; float: right; color: white; padding: 10px;    font-family: Verdana, Arial, Helvetica, sans-serif;
+                font-size: 12px;">
+                <input type="text" id="idSelectedElement" disabled placeholder="Select a element"
+                    style="background-color: #171725;color: white; width: 100%; height: 21.53px; border: 1px solid #222337">
+                <div class="item-prop" onclick="fnShowHideContent('text')">
+                    Text
+                    <i id="i_text" class="fa-solid fa-sort-down"></i>
+                </div>
+                <div class="item-prop-content" id="text">
+                    <div class="item-prop-content-item">
+                        <span>Font Family</span>
+                        <select onchange="fnSetProperties()" style="width: 100%; height: 25px;" id="font-family">
+                            <option value="arial" style="font-family: arial">Arial</option>
+                            <option value="'Times New Roman'" style="font-family: 'Times New Roman'">Times New Roman
+                            </option>
+                            <option value="Verdana" style="font-family: Verdana">Verdana</option>
+                            <option value="'Comic Sans Serif'" style="font-family: 'Comic Sans Serif'">Comic Sans Serif
+                            </option>
+                            <option value="'Trebuchet MS'" style="font-family: 'Trebuchet MS'">Trebuchet MS</option>
+                        </select>
+                    </div>
+                    <div class="item-prop-content-item">
+                        <span>Color</span>
+                        <input onchange="fnSetProperties()" id="color" type="color" style="width: 98px">
+                    </div>
+                    <div class="item-prop-content-item">
+                        <span>Size</span>
+                        <input onchange="fnSetProperties()" id="font-size" type="text" style="width: 90px">
+                    </div>
+                    <div class="item-prop-content-item">
+                        <span>Weight</span>
+                        <input onchange="fnSetProperties()" id="font-weight" type="text" style="width: 90px">
+                    </div>
+                    <div class="item-prop-content-item">
+                        <span>Line Height</span>
+                        <input onchange="fnSetProperties()" id="line-height" type="text" style="width: 90px">
+                    </div>
+                    <div class="item-prop-content-item">
+                        <span>Hor. Align</span>
+                        <select onchange="fnSetProperties()" style="width: 100px; height: 25px;" id="text-align">
+                            <option value="left">Left</option>
+                            <option value="center">Center</option>
+                            <option value="right">Rigth</option>
+                        </select>
+                    </div>
+                    <div class="item-prop-content-item">
+                        <span>Ver. Align</span>
+                        <select onchange="fnSetProperties()" style="width: 100px; height: 25px;" id="vertical-align">
+                            <option value="top">Top</option>
+                            <option value="middle">Middle</option>
+                            <option value="bottom">Bottom</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="item-prop" onclick="fnShowHideContent('background')">
+                    Background
+                    <i id="i_background" class="fa-solid fa-sort-down"></i>
+                </div>
+                <div class="item-prop-content" id="background">
+                    <div class="item-prop-content-item">
+                        <span>Color</span>
+                        <input onchange="fnSetProperties()" id="background-color" type="color">
+                    </div>
+                </div>
+
+                <div class="item-prop" onclick="fnShowHideContent('spacings')">
+                    Spacings
+                    <i class="fa-solid fa-sort-down"></i>
+                </div>
+                <div class="item-prop-content" id="spacings">
+                    <div class="item-prop-content-item">
+                        <span>Padding Top</span>
+                        <input onchange="fnSetProperties()" id="padding-top" type="text" style="width: 90px">
+                    </div>
+                    <div class="item-prop-content-item">
+                        <span>Padding Bottom</span>
+                        <input onchange="fnSetProperties()" id="padding-bottom" type="text" style="width: 90px">
+                    </div>
+                    <div class="item-prop-content-item">
+                        <span>Padding Left</span>
+                        <input onchange="fnSetProperties()" id="padding-left" type="text" style="width: 90px">
+                    </div>
+                    <div class="item-prop-content-item">
+                        <span>Padding Right</span>
+                        <input onchange="fnSetProperties()" id="padding-right" type="text" style="width: 90px">
+                    </div>
+                </div>
+
+                <div class="item-prop" onclick="fnShowHideContent('borders')">
+                    Borders
+                    <i class="fa-solid fa-sort-down"></i>
+                </div>
+                <div class="item-prop-content" id="borders">
+                    <div>
+                        <span>Top</span><br>
+                        <div class="item-prop-content-item">
+                            <input onchange="fnSetProperties()" id="border-top" type="text" style="width: 30px">
+                            <select onchange="fnSetProperties()" style="width: 130px; height: 27px;"
+                                id="border-top-style">
+                                <option value="none">None</option>
+                                <option value="solid">Solid</option>
+                                <option value="dashed">Dashed</option>
+                                <option value="dotted">Dotted</option>
+                            </select>
+                            <input onchange="fnSetProperties()" id="border-top-color" type="color" style="width: 20px">
+                        </div>
+                    </div>
+                    <div>
+                        <span>Botton</span><br>
+                        <div class="item-prop-content-item">
+                            <input onchange="fnSetProperties()" id="border-bottom" type="text" style="width: 30px">
+                            <select onchange="fnSetProperties()" style="width: 130px; height: 27px;"
+                                id="border-bottom-style">
+                                <option value="none">None</option>
+                                <option value="solid">Solid</option>
+                                <option value="dashed">Dashed</option>
+                                <option value="dotted">Dotted</option>
+                            </select>
+                            <input onchange="fnSetProperties()" id="border-bottom-color" type="color"
+                                style="width: 20px">
+                        </div>
+                    </div>
+                    <div>
+                        <span>Left</span><br>
+                        <div class="item-prop-content-item">
+                            <input onchange="fnSetProperties()" id="border-left" type="text" style="width: 30px">
+                            <select onchange="fnSetProperties()" style="width: 130px; height: 27px;"
+                                id="border-left-style">
+                                <option value="none">None</option>
+                                <option value="solid">Solid</option>
+                                <option value="dashed">Dashed</option>
+                                <option value="dotted">Dotted</option>
+                            </select>
+                            <input onchange="fnSetProperties()" id="border-left-color" type="color" style="width: 20px">
+                        </div>
+                    </div>
+                    <div>
+                        <span>Right</span><br>
+                        <div class="item-prop-content-item">
+                            <input onchange="fnSetProperties()" id="border-right" type="text" style="width: 30px">
+                            <select onchange="fnSetProperties()" style="width: 130px; height: 27px;"
+                                id="border-right-style">
+                                <option value="none">None</option>
+                                <option value="solid">Solid</option>
+                                <option value="dashed">Dashed</option>
+                                <option value="dotted">Dotted</option>
+                            </select>
+                            <input onchange="fnSetProperties()" id="border-right-color" type="color"
+                                style="width: 20px">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="item-prop" onclick="fnShowHideContent('positioning')">
+                    Positioning
+                    <i class="fa-solid fa-sort-down"></i>
+                </div>
+                <div class="item-prop-content" id="positioning">
+                    <div class="item-prop-content-item">
+                        <span>Position</span>
+                        <select onchange="fnSetProperties()" style="width: 100px; height: 27px;"
+                                id="position">
+                                <option value="absolute">Absolute</option>
+                                <option value="fixed">Fixed</option>
+                                <option value="relative">Relative</option>
+                                <option value="static">Static</option>
+                            </select>
+                    </div>
+                    <div class="item-prop-content-item">
+                        <span>Top</span>
+                        <input onchange="fnSetProperties()" id="top" type="text" style="width: 90px">
+                    </div>
+                    <div class="item-prop-content-item">
+                        <span>Left</span>
+                        <input onchange="fnSetProperties()" id="left" type="text" style="width: 90px">
+                    </div>
+                    <div class="item-prop-content-item">
+                        <span>Margin Top</span>
+                        <input onchange="fnSetProperties()" id="margin-top" type="text" style="width: 90px">
+                    </div>
+                    <div class="item-prop-content-item">
+                        <span>Margin Left</span>
+                        <input onchange="fnSetProperties()" id="margin-left" type="text" style="width: 90px">
+                    </div>
+                </div>
+
+                <div class="item-prop" onclick="fnShowHideContent('measures')">
+                    Measures
+                    <i class="fa-solid fa-sort-down"></i>
+                </div>
+                <div class="item-prop-content" id="measures">
+                    <div class="item-prop-content-item">
+                        <span>Width</span>
+                        <input onchange="fnSetProperties()" id="width" type="text" style="width: 90px">
+                    </div>
+                    <div class="item-prop-content-item">
+                        <span>Height</span>
+                        <input onchange="fnSetProperties()" id="height" type="text" style="width: 90px">
+                    </div>
+                    <div class="item-prop-content-item">
+                        <span>Min Width</span>
+                        <input onchange="fnSetProperties()" id="min-width" type="text" style="width: 90px">
+                    </div>
+                    <div class="item-prop-content-item">
+                        <span>Min Height</span>
+                        <input onchange="fnSetProperties()" id="min-height" type="text" style="width: 90px">
+                    </div>
+                    <div class="item-prop-content-item">
+                        <span>Max Width</span>
+                        <input onchange="fnSetProperties()" id="max-width" type="text" style="width: 90px">
+                    </div>
+                    <div class="item-prop-content-item">
+                        <span>Max Height</span>
+                        <input onchange="fnSetProperties()" id="max-height" type="text" style="width: 90px">
+                    </div>
+                </div>
+
+                <div class="item-prop" onclick="fnShowHideContent('shadows')">
+                    Corners
+                    <i class="fa-solid fa-sort-down"></i>
+                </div>
+                <div class="item-prop-content" id="shadows">
+                    <div class="item-prop-content-item">
+                        <span>Top Left</span>
+                        <input onchange="fnSetProperties()" id="border-top-left-radius" type="text" style="width: 90px">
+                    </div>
+                    <div class="item-prop-content-item">
+                        <span>Top Right</span>
+                        <input onchange="fnSetProperties()" id="border-top-right-radius" type="text"
+                            style="width: 90px">
+                    </div>
+                    <div class="item-prop-content-item">
+                        <span>Bottom Left</span>
+                        <input onchange="fnSetProperties()" id="border-bottom-left-radius" type="text"
+                            style="width: 90px">
+                    </div>
+                    <div class="item-prop-content-item">
+                        <span>Bottom Right</span>
+                        <input onchange="fnSetProperties()" id="border-bottom-right-radius" type="text"
+                            style="width: 90px">
+                    </div>
+                </div>
+
+                <div class="item-prop" onclick="fnShowHideContent('others')">
+                    Others
+                    <i class="fa-solid fa-sort-down"></i>
+                </div>
+                <div class="item-prop-content" id="others">
+                    <div class="item-prop-content-item">
+                        <span>Opacity</span>
+                        <input onchange="fnSetProperties()" id="opacity" type="text" style="width: 90px">
+                    </div>
+                    <div class="item-prop-content-item">
+                        <span>Display</span>
+                        <select onchange="fnSetProperties()" style="width: 98px; height: 25px;" id="display">
+                            <option value="block">Block</option>
+                            <option value="none">None</option>
+                        </select>
+                    </div>
+                    <div class="item-prop-content-item">
+                        <span>Cursor</span>
+                        <select onchange="fnSetProperties()" style="width: 98px; height: 25px;" id="cursor">
+                            <option value="default">Default</option>
+                            <option value="pointer">Pointer</option>
+                            <option value="all-scroll">All-scroll</option>
+                            <option value="help">Help</option>
+                            <option value="progress">Progress</option>
+                            <option value="wait">Wait</option>
+                            <option value="crosshair">Crosshair</option>
+                            <option value="no-drop">No-drop</option>
+
+                        </select>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+</body>
+
+
+<script type="text/javascript">
+    $("#html1").jstree()
+</script>
+
+</html>

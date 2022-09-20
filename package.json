@@ -1,0 +1,20 @@
+{
+  "name": "ExemploElectron",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "electron ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^15.2.0",
+    "electron-packager": "^15.4.0",
+    "prettier": "2.4.1"
+  },
+  "dependencies": {
+    "directory-tree": "^3.3.1"
+  }
+}
